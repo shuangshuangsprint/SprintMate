@@ -95,6 +95,7 @@ export function renderRooms(activeId = 0) {
 // Join a room
 // 加入一个房间
 export function joinRoom(userName, roomName, password, modal = null, onResult) {
+	const prevRd = (activeRoomIndex >= 0 && roomsData[activeRoomIndex]) ? roomsData[activeRoomIndex] : null;
 	const newRd = getNewRoomData();
 	newRd.roomName = roomName;
 	newRd.myUserName = userName;
@@ -106,14 +107,48 @@ export function joinRoom(userName, roomName, password, modal = null, onResult) {
 	if (sidebarUsername) sidebarUsername.textContent = userName;
 	setSidebarAvatar(userName);
 	let closed = false;
+	let secured = false;
+	let chatInst = null;
+	let connectTimeout = null;
 	const callbacks = {
 		onServerClosed: () => {
+			if (connectTimeout) {
+				clearTimeout(connectTimeout);
+				connectTimeout = null;
+			}
 			addSystemMsg('SprintMate connection closed');
+			if (!secured) {
+				try {
+					if (chatInst) chatInst.destruct();
+				} catch (_) {
+				}
+				const removeIndex = roomsData.indexOf(newRd);
+				if (removeIndex >= 0) {
+					roomsData.splice(removeIndex, 1);
+				}
+				const prevIndex = prevRd ? roomsData.indexOf(prevRd) : -1;
+				if (prevIndex >= 0) {
+					switchRoom(prevIndex);
+				} else if (roomsData.length > 0) {
+					switchRoom(0);
+				} else {
+					activeRoomIndex = -1;
+					renderRooms(0);
+					renderMainHeader();
+					renderUserList(false);
+					renderChatArea();
+				}
+			}
 			if (onResult && !closed) {
 				closed = true;
 				onResult(false)
 			}
 		},		onServerSecured: () => {
+			if (connectTimeout) {
+				clearTimeout(connectTimeout);
+				connectTimeout = null;
+			}
+			secured = true;
 			if (modal) modal.remove();
 			else {
 				const loginContainer = $id('login-container');
@@ -121,7 +156,7 @@ export function joinRoom(userName, roomName, password, modal = null, onResult) {
 				const chatContainer = $id('chat-container');
 				if (chatContainer) chatContainer.style.display = '';
 				
-
+				
 			}
 			if (onResult && !closed) {
 				closed = true;
@@ -134,9 +169,37 @@ export function joinRoom(userName, roomName, password, modal = null, onResult) {
 		onClientLeft: (clientId) => handleClientLeft(idx, clientId),
 		onClientMessage: (msg) => handleClientMessage(idx, msg)
 	};
-	const chatInst = new window.SprintMate(window.config, callbacks);
+	chatInst = new window.SprintMate(window.config, callbacks);
 	chatInst.setCredentials(userName, roomName, password);
 	chatInst.connect();
+	connectTimeout = setTimeout(() => {
+		if (secured || closed) return;
+		try {
+			if (chatInst) chatInst.destruct();
+		} catch (_) {
+		}
+		addSystemMsg('SprintMate connection timeout');
+		const removeIndex = roomsData.indexOf(newRd);
+		if (removeIndex >= 0) {
+			roomsData.splice(removeIndex, 1);
+		}
+		const prevIndex = prevRd ? roomsData.indexOf(prevRd) : -1;
+		if (prevIndex >= 0) {
+			switchRoom(prevIndex);
+		} else if (roomsData.length > 0) {
+			switchRoom(0);
+		} else {
+			activeRoomIndex = -1;
+			renderRooms(0);
+			renderMainHeader();
+			renderUserList(false);
+			renderChatArea();
+		}
+		if (onResult && !closed) {
+			closed = true;
+			onResult(false)
+		}
+	}, 10000);
 	roomsData[idx].chat = chatInst
 }
 
