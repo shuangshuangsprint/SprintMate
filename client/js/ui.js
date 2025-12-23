@@ -483,7 +483,7 @@ export function generateLoginForm(isModal = false) {
 			<label for="userName${idPrefix}" class="floating-label">${t('ui.username', 'Username')}</label>
 		</div>
 		<div class="input-group">
-			<input id="roomName${idPrefix}" type="text" required minlength="1" maxlength="15" placeholder="">
+			<input id="roomName${idPrefix}" type="text" autocomplete="off" required minlength="1" maxlength="15" placeholder="">
 			<label for="roomName${idPrefix}" class="floating-label">${t('ui.node_name', 'Node Name')}</label>
 		</div>
 		<div class="input-group">
