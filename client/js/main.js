@@ -88,6 +88,19 @@ window.config = {
 	debug: true                       // 是否开启调试模式 / Enable debug mode
 };
 
+
+try {
+	const params = new URLSearchParams(window.location.search);
+	const overrideWs = params.get('ws') || params.get('wsAddress');
+	const storedWs = localStorage.getItem('SprintMate_wsAddress');
+	const finalWs = overrideWs || storedWs;
+	if (finalWs && typeof finalWs === 'string') {
+		window.config.wsAddress = finalWs;
+		localStorage.setItem('SprintMate_wsAddress', finalWs);
+	}
+} catch (_) {
+}
+
 // 在文档开始加载前就初始化语言设置，防止闪烁
 // Initialize language settings before document starts loading
 initSettings();
