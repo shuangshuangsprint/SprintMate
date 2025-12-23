@@ -1,4 +1,4 @@
-﻿// SprintMate core cryptographic client for secure chat
+// SprintMate core cryptographic client for secure chat
 // SprintMate 安全聊天的核心加密客户端
 
 import {
@@ -444,7 +444,16 @@ class SprintMate {
 	// WebSocket error event handler
 	// WebSocket 错误事件处理
 	async onError(event) {
-		this.logEvent('onError', event, 'error');
+		let details = null;
+		try {
+			details = {
+				wsAddress: this.config ? this.config.wsAddress : null,
+				readyState: this.connection ? this.connection.readyState : null,
+				eventType: event && event.type ? event.type : null
+			};
+		} catch (_) {
+		}
+		this.logEvent('onError', details || event, 'error');
 		this.disconnect();
 		if (this.credentials) {
 			this.startReconnect()
@@ -461,7 +470,18 @@ class SprintMate {
 	// WebSocket close event handler
 	// WebSocket 关闭事件处理
 	async onClose(event) {
-		this.logEvent('onClose', event);
+		let details = null;
+		try {
+			details = {
+				wsAddress: this.config ? this.config.wsAddress : null,
+				readyState: this.connection ? this.connection.readyState : null,
+				code: event && typeof event.code === 'number' ? event.code : null,
+				reason: event && typeof event.reason === 'string' ? event.reason : null,
+				wasClean: event && typeof event.wasClean === 'boolean' ? event.wasClean : null
+			};
+		} catch (_) {
+		}
+		this.logEvent('onClose', details || event);
 		this.disconnect();
 		if (this.credentials) {
 			this.startReconnect()
