@@ -1,5 +1,3 @@
-// Language definitions
-// 语言定义
 const LANGUAGES = {
 	en: {
 		code: 'en',
@@ -139,7 +137,7 @@ const LANGUAGES = {
 			'meta.twitter_description': 'SprintMate 端到端加密（E2EE）：消息/文件本地 AES-256-GCM 加密；密钥 ECDH + HKDF（房间密码参与）；服务器仅转发密文，无数据库、无历史。',
 			
 			// Login and main UI
-			'ui.enter_node': '风中之信',
+			'ui.enter_node': 'E2EE',
 			'ui.username': '用户名',
 			'ui.node_name': '代号',
 			'ui.node_password': '密码',
@@ -218,7 +216,7 @@ const LANGUAGES = {
 			'help.title': '使用说明',
 			'help.back_to_login': '返回登录',
 			'help.usage_guide': '使用说明',
-			'help.what_is_sprintmate': '🔐 什么是 SprintMate？',			'help.what_is_sprintmate_desc': 'SprintMate 是端到端加密（E2EE）的聊天系统：所有消息与文件都会在您的设备本地使用 AES-256-GCM 加密。端到端密钥由双方 ECDH 协商产生，并结合房间密码通过 HKDF-SHA256 进行强化，因此只有目标接收者才能解密。同时客户端还会与中继服务器协商一把会话密钥，对传输链路再加一层加密（服务器公钥签名 + 本地 pinning），服务器仅转发密文，无法读取任何明文。',
+			'help.what_is_sprintmate': '🔐 什么是 E2EE？',			'help.what_is_sprintmate_desc': 'E2EE 是端到端加密（E2EE）的聊天系统：所有消息与文件都会在您的设备本地使用 AES-256-GCM 加密。端到端密钥由双方 ECDH 协商产生，并结合房间密码通过 HKDF-SHA256 进行强化，因此只有目标接收者才能解密。同时客户端还会与中继服务器协商一把会话密钥，对传输链路再加一层加密（服务器公钥签名 + 本地 pinning），服务器仅转发密文，无法读取任何明文。',
 			'help.how_to_start': '🚀 快速开始',
 			'help.step_username': '输入用户名',
 			'help.step_username_desc': '选择显示昵称。该昵称通过加密消息分享给对端，不对应任何账户，也不由服务器保存。',
@@ -248,7 +246,7 @@ const LANGUAGES = {
 			'help.tip_security_reminder': '安全提醒',
 			'help.tip_security_reminder_desc': '请使用 HTTPS/WSS。若出现服务器公钥不匹配提示，除非你确认更换了可信服务器，否则不要继续。',
 			'help.tip_password_strategy': '密码策略',
-			'help.tip_password_strategy_desc': '建议使用足够长的口令（888888888 位以上），可用“词组 + 数字/符号”。密码用于强化端到端密钥派生。',
+			'help.tip_password_strategy_desc': '建议使用足够长的口令（888888888 位以上），也有爆破风险”。密码用于强化端到端密钥派生。',
 		}
 	}
 };
