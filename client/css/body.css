@@ -1,0 +1,800 @@
+:root {
+	--ios-card: rgba(255, 255, 255, 0.14);
+	--ios-stroke: rgba(255, 255, 255, 0.18);
+	--ios-stroke-strong: rgba(255, 255, 255, 0.28);
+	--ios-text: rgba(255, 255, 255, 0.92);
+	--ios-subtext: rgba(255, 255, 255, 0.72);
+	--ios-placeholder: rgba(255, 255, 255, 0.56);
+	--ios-blue: #0a84ff;
+	--ios-blue-pressed: #0060df;
+	--ios-radius-xl: 26px;
+	--ios-radius-lg: 18px;
+	--ios-shadow: 0 22px 46px rgba(0, 0, 0, 0.35);
+	--ios-shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.2);
+	--ios-blur: 18px;
+	--ios-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+body {
+	background: #fff;
+	font-family: var(--ios-font);
+	margin: 0;
+}
+
+body.login-page {
+	position: relative;
+	background-image: url("../assets/wallpaper.svg");
+	background-position: left top;
+	background-size: auto;
+	background-repeat: repeat;
+	background-attachment: fixed;
+	color: var(--ios-text);
+}
+
+body.login-page::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	background: linear-gradient(180deg, rgba(0, 0, 0, 0.28) 0%, rgba(0, 0, 0, 0.52) 100%);
+	pointer-events: none;
+	z-index: -1;
+}
+
+/* 翻转卡片样式 / Flip Card Styles */
+.flip-card {
+	perspective: 1000px;
+	max-width: 420px;
+	width: 100%;
+	height: 540px;
+	position: relative;
+}
+
+.flip-card-inner {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+	transform-style: preserve-3d;
+}
+
+.flip-card-inner.flipped {
+	transform: rotateX(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: var(--ios-radius-xl);
+	padding: 26px 18px 18px;
+	box-shadow: var(--ios-shadow);
+	background: var(--ios-card);
+	border: 1px solid var(--ios-stroke);
+	backdrop-filter: blur(var(--ios-blur)) saturate(155%);
+	-webkit-backdrop-filter: blur(var(--ios-blur)) saturate(155%);
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	backface-visibility: hidden;
+}
+
+.flip-card-back {
+	transform: rotateX(180deg);
+}
+
+/* 帮助按钮样式 / Help Button Styles */
+.help-btn {
+	position: absolute;
+	top: 14px;
+	right: 14px;
+	background: rgba(255, 255, 255, 0.12);
+	border: 1px solid var(--ios-stroke);
+	color: var(--ios-text);
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: var(--ios-shadow-soft);
+	transition: transform 0.12s ease, background-color 0.12s ease;
+	z-index: 10;
+}
+
+.help-btn svg {
+	width: 22px;
+	height: 22px;
+}
+
+/* 控制翻转时按钮的可见性 */
+.flip-card-inner.flipped .flip-card-front .help-btn {
+	visibility: hidden;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.flip-card-inner:not(.flipped) .flip-card-back .help-btn {
+	visibility: hidden;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.help-btn:hover {
+	background: rgba(255, 255, 255, 0.18);
+}
+
+.help-btn:active {
+	transform: scale(0.96);
+}
+
+/* 帮助内容样式 / Help Content Styles */
+.help-content {
+	text-align: left;
+	max-height: 430px;
+	overflow-y: auto;
+	padding: 6px 4px 14px 4px;
+	color: var(--ios-text);
+	line-height: 1.6;
+}
+
+.flip-card-back h2 {
+	color: var(--ios-text);
+	margin: 8px 0 12px;
+	font-size: 1.4rem;
+	font-weight: 700;
+}
+
+.help-important {
+	margin-top: 12px;
+	padding: 10px 12px;
+	border-radius: 12px;
+	background: rgba(10, 132, 255, 0.14);
+	border: 1px solid rgba(10, 132, 255, 0.28);
+	color: var(--ios-text);
+	font-size: 0.9rem;
+}
+
+.help-section {
+	margin-bottom: 24px;
+}
+
+.help-section h3 {
+	font-size: 1.1rem;
+	color: var(--ios-text);
+	margin-bottom: 12px;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.help-section p {
+	font-size: 0.95rem;
+	color: var(--ios-subtext);
+	margin-bottom: 12px;
+	line-height: 1.5;
+}
+
+.help-section ol,
+.help-section ul {
+	font-size: 0.9rem;
+	color: var(--ios-subtext);
+	margin-left: 16px;
+	margin-bottom: 12px;
+}
+
+.help-section li {
+	margin-bottom: 8px;
+	line-height: 1.4;
+}
+
+.help-section li strong {
+	color: var(--ios-text);
+	font-weight: 600;
+}
+
+/* 滚动条样式 */
+.help-content::-webkit-scrollbar {
+	width: 6px;
+}
+
+.help-content::-webkit-scrollbar-track {
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 3px;
+}
+
+.help-content::-webkit-scrollbar-thumb {
+	background: rgba(255, 255, 255, 0.35);
+	border-radius: 3px;
+}
+
+.help-content::-webkit-scrollbar-thumb:hover {
+	background: rgba(255, 255, 255, 0.48);
+}
+
+.login-container {
+	/* 移除原有的样式，现在由flip-card处理 */
+	/* max-width: 400px;
+	margin: 60px auto 0 auto;
+	padding: 32px 24px 24px 24px;
+	background: #fff;
+	border-radius: 14px;
+	box-shadow: 0 2px 16px rgba(60, 80, 100, 0.09); */
+    display: flex;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+	justify-content: center;
+	min-height: 100vh;
+	padding: 28px 14px;
+}
+
+.login-container h1 {
+	font-size: 2rem;
+	font-weight: 700;
+	color: var(--ios-text);
+	margin: 12px 0 10px;
+}
+
+.subtips {
+	color: var(--ios-subtext);
+	margin-bottom: 26px;
+	font-size: 1rem;
+}
+
+.login-container form {
+	display: grid;
+	gap: 12px;
+	width: 100%;
+}
+
+.input-group {
+	position: relative;
+	margin-bottom: 0;
+	width: 100%;
+	border-radius: var(--ios-radius-lg);
+	background: rgba(255, 255, 255, 0.1);
+	border: 1px solid var(--ios-stroke);
+	overflow: hidden;
+	transition: border-color 0.24s ease, box-shadow 0.24s ease, background-color 0.24s ease, transform 0.24s ease;
+}
+
+.input-group:focus-within {
+	border-color: rgba(10, 132, 255, 0.68);
+	box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.16);
+	transform: translateY(-1px);
+}
+
+.input-group label:not(.floating-label) {
+	font-size: 0.98rem;
+	color: #888;
+	margin-bottom: 6px;
+	margin-left: 2px;
+}
+
+.input-group .optional {
+	color: rgba(255, 255, 255, 0.5);
+	font-size: 0.92em;
+	margin-left: 4px;
+}
+
+.input-group input {
+	width: 100%;
+	border: 0;
+	border-radius: 0;
+	padding: 20px 16px 10px;
+	height: 56px;
+	font-size: 16px;
+	outline: none;
+	background: transparent;
+	color: var(--ios-text);
+	transition: background-color 0.2s ease;
+}
+
+.input-group input::placeholder {
+	color: transparent;
+}
+
+.login-btn {
+	margin-top: 8px;
+	background: var(--ios-blue);
+	border: none;
+	color: #fff;
+	font-size: 16px;
+	font-weight: 700;
+	border-radius: 999px;
+	height: 52px;
+	padding: 0;
+	cursor: pointer;
+	letter-spacing: 0.2px;
+	box-shadow: 0 10px 24px rgba(10, 132, 255, 0.28);
+	transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.login-btn:hover,
+.login-btn:focus {
+	background: var(--ios-blue);
+	box-shadow: 0 12px 26px rgba(10, 132, 255, 0.32);
+}
+
+.login-btn:active {
+	transform: scale(0.98);
+	background: var(--ios-blue-pressed);
+}
+
+.login-modal {
+	position: fixed;
+	z-index: 9999;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.login-modal-bg {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.28);
+	backdrop-filter: blur(10px);
+	z-index: 1;
+}
+
+.login-modal-card {
+	position: relative;
+	z-index: 2;
+	background: rgba(255, 255, 255, 0.14);
+	border: 1px solid var(--ios-stroke);
+	border-radius: var(--ios-radius-xl);
+	backdrop-filter: blur(var(--ios-blur)) saturate(155%);
+	-webkit-backdrop-filter: blur(var(--ios-blur)) saturate(155%);
+	box-shadow: var(--ios-shadow);
+	padding: 32px 24px 24px 24px;
+	min-width: 200px;
+	width: 400px;
+	text-align: center;
+}
+
+.login-modal-card h1 {
+	color: var(--ios-text);
+	margin: 6px 0 14px;
+}
+
+.login-modal-card form {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+.login-modal-close {
+	position: absolute;
+	right: 12px;
+	top: 10px;
+	background: rgba(255, 255, 255, 0.12);
+	border: 1px solid var(--ios-stroke);
+	font-size: 1.7rem;
+	color: var(--ios-text);
+	cursor: pointer;
+	z-index: 3;
+	line-height: 1;
+	transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.login-modal-close:hover {
+	background: rgba(255, 255, 255, 0.18);
+	transform: scale(1.05);
+}
+
+body.login-page .powered-by {
+	color: var(--ios-subtext);
+}
+
+body.login-page .powered-by a {
+	color: var(--ios-blue);
+}
+
+.login-accent-picker {
+	position: fixed;
+	right: 18px;
+	bottom: 18px;
+	z-index: 40;
+	width: 86px;
+	height: 86px;
+	display: grid;
+	place-items: center;
+	border-radius: 999px;
+	border: 1px solid var(--ios-stroke);
+	background: rgba(255, 255, 255, 0.14);
+	backdrop-filter: blur(14px) saturate(150%);
+	-webkit-backdrop-filter: blur(14px) saturate(150%);
+	box-shadow: var(--ios-shadow-soft);
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: none;
+	transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.24s ease;
+}
+
+.login-accent-picker:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+}
+
+.login-color-wheel {
+	position: relative;
+	width: 62px;
+	height: 62px;
+	border-radius: 50%;
+	background: conic-gradient(
+		#ff3b30,
+		#ff9500,
+		#ffcc00,
+		#34c759,
+		#00c7be,
+		#0a84ff,
+		#a259ff,
+		#ff2d55,
+		#ff3b30
+	);
+	border: 1px solid rgba(255, 255, 255, 0.45);
+	cursor: pointer;
+	box-shadow: inset 0 0 0 8px rgba(255, 255, 255, 0.22);
+}
+
+.login-color-wheel::after {
+	content: "";
+	position: absolute;
+	inset: 16px;
+	border-radius: 50%;
+	background: rgba(0, 0, 0, 0.22);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.login-color-thumb {
+	position: absolute;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: #fff;
+	border: 2px solid rgba(0, 0, 0, 0.22);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+	transform: translate(-50%, -50%);
+	pointer-events: none;
+	z-index: 2;
+}
+
+.login-public-btn {
+	position: fixed;
+	right: 116px;
+	bottom: 18px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 48px;
+	min-width: 140px;
+	padding: 0 18px;
+	border-radius: 999px;
+	border: 1px solid var(--ios-stroke);
+	background: rgba(255, 255, 255, 0.16);
+	color: var(--ios-text);
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: 0.2px;
+	backdrop-filter: blur(14px) saturate(150%);
+	-webkit-backdrop-filter: blur(14px) saturate(150%);
+	box-shadow: var(--ios-shadow-soft);
+	cursor: pointer;
+	z-index: 40;
+	transition: transform 0.16s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.login-public-btn:hover {
+	background: rgba(255, 255, 255, 0.24);
+	transform: translateY(-1px);
+}
+
+.login-public-btn:active {
+	transform: scale(0.97);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--ios-card: rgba(20, 28, 38, 0.64);
+		--ios-stroke: rgba(255, 255, 255, 0.14);
+		--ios-stroke-strong: rgba(255, 255, 255, 0.2);
+		--ios-text: rgba(236, 242, 249, 0.95);
+		--ios-subtext: rgba(183, 196, 212, 0.86);
+		--ios-placeholder: rgba(183, 196, 212, 0.68);
+		--ios-shadow: 0 24px 52px rgba(0, 0, 0, 0.5);
+		--ios-shadow-soft: 0 10px 26px rgba(0, 0, 0, 0.38);
+	}
+
+	body.login-page::before {
+		background: linear-gradient(180deg, rgba(3, 8, 15, 0.52) 0%, rgba(3, 8, 15, 0.72) 100%);
+	}
+
+	.input-group {
+		background: rgba(255, 255, 255, 0.06);
+	}
+
+	.help-btn,
+	.login-modal-close {
+		background: rgba(255, 255, 255, 0.08);
+	}
+
+	.login-color-wheel::after {
+		background: rgba(3, 8, 15, 0.36);
+	}
+}
+
+.avatar {
+	width: 42px !important;
+	height: 42px !important;
+	border-radius: 50% !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	font-weight: bold !important;
+	font-size: 20px !important;
+	user-select: none !important;
+	overflow: hidden !important;
+	flex-shrink: 0 !important;
+	object-fit: cover !important;
+	margin-right: 8px !important;
+	box-sizing: border-box !important;
+	z-index: 2 !important;
+	position: relative !important;
+}
+
+.avatar img {
+	width: 100% !important;
+	height: 100% !important;
+	border-radius: 50% !important;
+	object-fit: cover !important;
+	display: block !important;
+	z-index: 2 !important;
+	position: relative !important;
+}
+
+.img-modal-bg {
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 9999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(20, 20, 20, 0.92);
+}
+
+.img-modal-blur {
+	display: none;
+}
+
+.img-modal-content {
+	position: relative;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background: none;
+	border-radius: 0;
+	box-shadow: none;
+	padding: 0;
+	width: 100vw;
+	height: 100vh;
+	max-width: 100vw;
+	max-height: 100vh;
+}
+
+.img-modal-content img {
+	max-width: 100vw;
+	max-height: 100vh;
+	border-radius: 0;
+	box-shadow: none;
+	background: none;
+	margin: 0 auto;
+	display: block;
+	cursor: zoom-in;
+	border: none;
+}
+
+.img-modal-close {
+	position: fixed;
+	right: 15px;
+	top: 15px;
+	font-size: 2.6rem;
+	color: #bbb;
+	background: none;
+	border-radius: 50%;
+	width: 48px;
+	height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	z-index: 10000;
+	line-height: 1;
+	box-shadow: none;
+	transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.img-modal-close:hover {
+	background: rgba(80, 80, 80, 0.25);
+	color: #fff;
+	transform: scale(1.1);
+}
+
+.bubble.system {
+	max-width: 70%;
+	padding: 5px 14px;
+	border-radius: 20px;
+	margin: 0px auto 5px;
+	font-size: 13px;
+	line-height: 1.4;
+	position: relative;
+	word-break: break-word;
+	background: #f0f4f8b3;
+	color: #555;
+	display: inline-block;
+	text-align: center;
+}
+
+.icon-22-middle {
+	width: 22px;
+	height: 22px;
+	vertical-align: middle;
+	margin-right: 25px;
+	margin-left: 25px;
+}
+
+.icon-22 {
+	width: 22px;
+	height: 22px;
+}
+
+.input-hidden {
+	display: none;
+}
+
+.chat-attach-btn-abs {
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	right: -20px;
+	top: 50%;
+	transform: translateY(-50%);
+	transition: transform 0.2s ease, color 0.2s ease;
+	z-index: 5;
+}
+
+.chat-attach-btn-abs:hover {
+	transform: translateY(-50%) scale(1.1);
+	color: var(--ios-blue);
+}
+
+.input-message-input-init {
+	height: 37px;
+}
+
+.bubble-img {
+	max-width: 220px;
+	max-height: 180px;
+	border-radius: 8px;
+}
+
+.login-modal-close-abs {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	font-size: 22px;
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+.main-header-flex {
+	display: flex;
+	align-items: center;
+}
+
+.group-title-bold {
+	font-size: 1.22em;
+	font-weight: bold;
+}
+
+.main-header-members {
+	margin-left: 10px;
+	font-size: 13px;
+	color: #888;
+}
+
+.img-modal-content-overflow {
+	overflow: hidden;
+}
+
+.img-modal-img {
+	max-width: 90vw;
+	max-height: 90vh;
+	cursor: grab;
+	user-select: none;
+}
+
+
+.send-message-btn {
+  background: var(--ios-blue);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  position: relative;
+  cursor: pointer;
+  font-size: 17px;
+  padding: 0.7em 0.7em;
+  border-radius: 50px;
+  box-shadow: 0 10px 24px rgba(10, 132, 255, 0.26);
+  margin: 0px 0px 3px 7px;
+  transition: transform 0.12s ease, background-color 0.12s ease, box-shadow 0.12s ease;
+  z-index: 10;
+}
+.send-message-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px rgba(10, 132, 255, 0.3);
+}
+.send-message-btn:active {
+  transform: scale(0.96) translateY(0px);
+  background: var(--ios-blue-pressed);
+  box-shadow: 0 6px 14px rgba(10, 132, 255, 0.22);
+}
+.send-message-btn .text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  fill: #fff;
+  transition: transform 0.12s ease;
+}
+.send-message-btn:hover .text {
+  transform: scale(1.03);
+}
+.send-message-btn:active .text {
+  transform: scale(0.95);
+}
+
+/* 确保发送按钮的点击区域不被其他元素遮挡 */
+.send-message-btn {
+  position: relative;
+  z-index: 10;
+}
+
+/* 确保发送按钮在所有父容器中都有足够的层级 */
+.chat-input-wrapper .send-message-btn {
+  position: relative;
+  z-index: 15;
+}
+
+/* 防止任何绝对定位的元素遮挡发送按钮 */
+.new-message-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+	.send-message-btn {
+		border-color: rgba(255, 255, 255, 0.2);
+		box-shadow: 0 10px 24px rgba(10, 132, 255, 0.34);
+	}
+}

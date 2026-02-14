@@ -1,0 +1,29 @@
+/* 浮动标签动画样式 */
+.input-group {
+  position: relative;
+}
+
+.input-group .floating-label {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  pointer-events: none;
+  font-size: 16px;
+  color: var(--ios-placeholder, rgba(255, 255, 255, 0.56));
+  transform-origin: left top;
+  transition: top 0.14s ease, transform 0.14s ease, color 0.14s ease;
+}
+
+.input-group input:focus + .floating-label,
+.input-group input:not(:placeholder-shown) + .floating-label {
+  top: 10px;
+  color: var(--ios-blue, #0a84ff);
+  transform: scale(0.78);
+}
+
+.input-group .floating-label span {
+  display: inline;
+  color: inherit;
+  transition: none;
+  min-width: 0;
+}
