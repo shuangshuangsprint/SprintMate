@@ -92,13 +92,47 @@ window.config = {
 
 
 try {
+	const sanitizeWsAddress = (value) => {
+		if (typeof value !== 'string') return '';
+		const trimmed = value.trim();
+		if (!trimmed) return '';
+		try {
+			const parsed = new URL(trimmed);
+			if (parsed.protocol !== 'ws:' && parsed.protocol !== 'wss:') {
+				return '';
+			}
+			return parsed.toString().replace(/\/$/, '');
+		} catch (_) {
+			return '';
+		}
+	};
+
 	const params = new URLSearchParams(window.location.search);
-	const overrideWs = params.get('ws') || params.get('wsAddress');
-	const storedWs = localStorage.getItem('SprintMate_wsAddress');
-	const finalWs = overrideWs || storedWs;
+	const overrideWs = sanitizeWsAddress(params.get('ws') || params.get('wsAddress'));
+	const storedWs = sanitizeWsAddress(localStorage.getItem('SprintMate_wsAddress'));
+	let finalWs = overrideWs;
+
+	if (!finalWs && storedWs) {
+		let storedHost = '';
+		try {
+			storedHost = new URL(storedWs).host.toLowerCase();
+		} catch (_) {
+			storedHost = '';
+		}
+		const currentHost = window.location.host.toLowerCase();
+		if (storedHost === currentHost) {
+			finalWs = storedWs;
+		} else {
+			localStorage.removeItem('SprintMate_wsAddress');
+		}
+	}
+
 	if (finalWs && typeof finalWs === 'string') {
 		window.config.wsAddress = finalWs;
-		localStorage.setItem('SprintMate_wsAddress', finalWs);
+	}
+
+	if (overrideWs) {
+		localStorage.setItem('SprintMate_wsAddress', overrideWs);
 	}
 } catch (_) {
 }
