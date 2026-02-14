@@ -1974,7 +1974,7 @@ body:not(.login-page) {
 }
 
 .main::before {
-	display: none;
+	display: block;
 }
 
 .sidebar,
